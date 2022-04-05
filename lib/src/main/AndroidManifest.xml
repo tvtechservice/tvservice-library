@@ -1,0 +1,62 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pci.beacon"
+    >
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"  />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+<!--    <uses-permission android:name="android.permission.BLUETOOTH" android:required="false"/>-->
+<!--    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:required="false"/>-->
+<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
+
+    <application>
+        <!--  ↓↓↓ enabled, exported 추가↓↓↓ -->
+        <receiver
+            android:enabled="true"
+            android:exported="false"
+            android:name="com.pci.beacon.startup.StartupBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:enabled="true"
+            android:exported="false"
+            android:isolatedProcess="false"
+            android:label="beacon"
+            android:name=".service.BeaconService"
+            />
+
+        <service
+            android:name=".BeaconIntentProcessor"
+            android:enabled="true"
+            android:exported="false"
+            />
+
+        <!--  ↓↓↓ enabled, exported 추가↓↓↓ -->
+        <service
+            android:enabled="true"
+            android:exported="false"
+            android:name=".service.ScanJob"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <meta-data android:name="immediateScanJobId" android:value="208352939" />
+            <meta-data android:name="periodicScanJobId" android:value="208352940" />
+        </service>
+
+        <!--  ↓↓↓ enabled, exported 추가↓↓↓ -->
+        <service
+            android:enabled="true"
+            android:exported="false"
+            android:name="com.pci.bluetooth.BluetoothTestJob"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+            <meta-data android:name="jobId" android:value="1799803768"/>
+        </service>
+
+    </application>
+
+</manifest>
