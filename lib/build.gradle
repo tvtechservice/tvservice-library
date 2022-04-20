@@ -5,12 +5,15 @@ plugins {
 
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+//    compileSdkVersion 31
+//    buildToolsVersion "30.0.3"
+    compileSdkVersion 30
+
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 31
+//        targetSdkVersion 31
+        targetSdkVersion 30
         def Major =  1
         def Minor =  7
         def Point =  0
