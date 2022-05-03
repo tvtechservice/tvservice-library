@@ -10,6 +10,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 //import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 //import com.pci.beacon.pciutil.PCIChiper;
@@ -140,9 +141,12 @@ public class PCI {
                 } else {
 //                    tAdid = PCIChiper.Encrypt(tAdid, cdate);
                 }
-//                if(onCheckPermission(context)) {
-//                    PCIAdvertise.getInstance().start(context, "start", tAdid, pCode);
-//                }else{PCILog.d("Need to Bluetooth Advertise Permission!!");}
+
+                if(onCheckPermission(context)) {
+                    PCIAdvertise.getInstance().start(context, "start", tAdid, pCode);
+                }else{
+                    PCILog.d("This devices is not supported. ( Android 12 - Bluetooth Advertise Permission )");
+                }
             } catch (Exception e) {
                 PCILog.d("Beacon Advertising error!!");
             }
@@ -161,23 +165,25 @@ public class PCI {
     }
 
     public void beaconStop() {
-        try { PCIAdvertise.getInstance().finish();
+        try {
+            PCIAdvertise.getInstance().finish();
+            PCILog.d(" Beacon Advertising Stop !!" );
         }catch (Exception e){ PCILog.d("Beacon Advertising Stop error!!"); }
     }
 
-//    public boolean onCheckPermission(Context context){
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.BLUETOOTH_ADVERTISE}, PERMISSIONS_REQUEST);
-//                return false;
-//            } else {
-//                return true;
-//            }
-//        }else{
-//            return true;
-//        }
-//    }
+    public boolean onCheckPermission(Context context){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
+                //ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.BLUETOOTH_ADVERTISE}, PERMISSIONS_REQUEST);
+                return false;
+            } else {
+                return true;
+            }
+        }else{
+            return true;
+        }
+    }
 
 
 
