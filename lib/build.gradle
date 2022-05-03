@@ -16,7 +16,7 @@ android {
         targetSdkVersion 30
         def Major =  1
         def Minor =  7
-        def Point =  2
+        def Point =  5
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
         versionName Major + "." + Minor + "." + Point
