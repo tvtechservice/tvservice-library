@@ -30,7 +30,7 @@ uploadArchives {
 
             pom.project {
                 name 'tvservice-library'
-//                packaging 'jar'
+                packaging 'jar'
                 // optionally artifactId can be defined here
                 description 'TVservice SDK'
                 url 'https://github.com/tvtechservice/tvservice-library'
