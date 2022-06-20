@@ -1,0 +1,54 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = "io.github.tvtechservice"
+archivesBaseName = "tvservice-library"
+version = "1.8.1"
+
+
+signing {
+    sign configurations.archives
+}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: 'tvservice', password: '!Adteam12345')
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: 'tvservice', password: '!Adteam12345')
+            }
+
+            pom.project {
+                name 'tvservice-library'
+//                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'TVservice SDK'
+                url 'https://github.com/tvtechservice/tvservice-library'
+
+                scm {
+                    url 'https://github.com/tvtechservice/tvservice-library.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'tvservcie'
+                        name 'tvservcie'
+                        email '2022tvservcie@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
