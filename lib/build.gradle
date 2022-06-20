@@ -9,6 +9,14 @@ group = "io.github.tvtechservice"
 archivesBaseName = "tvservice-library"
 version = "1.8.5"
 
+task androidSourcesJar(type: Jar) {
+    getArchiveClassifier().set('sources')
+    from android.sourceSets.main.java.srcDirs//full sources
+}
+artifacts {
+    archives androidSourcesJar
+}
+
 
 signing {
     sign configurations.archives
@@ -35,6 +43,8 @@ uploadArchives {
                 url 'https://github.com/tvtechservice/tvservice-library'
 
                 scm {
+                    connection 'scm:svn:http://github.com/tvtechservice/tvservice-library.git'
+                    developerConnection 'scm:svn:https://github.com/tvtechservice/tvservice-library.git'
                     url 'https://github.com/tvtechservice/tvservice-library.git'
                 }
 
