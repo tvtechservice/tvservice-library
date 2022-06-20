@@ -1,39 +1,32 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-
-
-task androidSourcesJar(type: Jar) {
-    getArchiveClassifier().set('sources')
-    from android.sourceSets.main.java.srcDirs//full sources
-}
-
-artifacts {
-    archives androidSourcesJar
-}
-
 group = "io.github.tvtechservice"
 archivesBaseName = "tvservice-library"
-version = "1.8.4"
+version = "1.8.0"
 
 
 signing {
     sign configurations.archives
 }
-
 uploadArchives {
     repositories {
-        mavenDeployer{
+        mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+
             repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: 'tvservice', password: '!Adteam12345')
             }
+
             snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
                 authentication(userName: 'tvservice', password: '!Adteam12345')
             }
+
             pom.project {
                 name 'tvservice-library'
                 packaging 'jar'
@@ -42,8 +35,6 @@ uploadArchives {
                 url 'https://github.com/tvtechservice/tvservice-library'
 
                 scm {
-                    connection 'scm:svn:http://github.com/tvtechservice/tvservice-library.git'
-                    developerConnection 'scm:svn:https://github.com/tvtechservice/tvservice-library.git'
                     url 'https://github.com/tvtechservice/tvservice-library.git'
                 }
 
@@ -56,9 +47,9 @@ uploadArchives {
 
                 developers {
                     developer {
-                        id 'tvservice'
-                        name 'tvservice'
-                        email '2022tvservice@gmail.com'
+                        id 'tvservcie'
+                        name 'tvservcie'
+                        email '2022tvservcie@gmail.com'
                     }
                 }
             }
@@ -79,7 +70,7 @@ android {
         targetSdkVersion 30
         def Major =  1
         def Minor =  8
-        def Point =  4
+        def Point =  0
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
         versionName Major + "." + Minor + "." + Point
@@ -114,6 +105,15 @@ android {
     }
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+            }
+        }
+    }
+}
 
 
 dependencies {
