@@ -1,29 +1,29 @@
 plugins {
     id 'com.android.library'
-    id 'maven'
+    id 'maven-publish'
 }
 
-
-group = "io.github.tvtechservice"
-archivesBaseName = "tvservice-library"
-version = "1.8.6"
-
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-
-            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: 'tvservice', password: '!Adteam12345')
-            }
-
-            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: 'tvservice', password: '!Adteam12345')
-            }
-
-        }
-    }
+ext {
+    PUBLISH_GROUP_ID = 'io.github.tvtechservice'
+    PUBLISH_VERSION = '1.9.0'
+    PUBLISH_ARTIFACT_ID = 'tvservice-library'
+    PUBLISH_DESCRIPTION = 'tvservice-library'
+    PUBLISH_URL = 'https://github.com/tvtechservice/tvservice-library'
+    PUBLISH_LICENSE_NAME = 'Apache License'
+    PUBLISH_LICENSE_URL =
+            'https://github.com/yunjaena/SlackWebhookAndroid/blob/main/LICENSE'
+    PUBLISH_DEVELOPER_ID = 'tvservice'
+    PUBLISH_DEVELOPER_NAME = 'tvservice'
+    PUBLISH_DEVELOPER_EMAIL = '2022tvservice@gmail.com'
+    PUBLISH_SCM_CONNECTION =
+            'scm:git:github.com/tvtechservice/tvservice-library.git'
+    PUBLISH_SCM_DEVELOPER_CONNECTION =
+            'scm:git:ssh://github.com:tvtechservice/tvservice-library.git'
+    PUBLISH_SCM_URL =
+            'https://github.com/tvtechservice/tvservice-library/lib/src/main/'
 }
+
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
 
 
 android {
@@ -37,8 +37,8 @@ android {
 //        targetSdkVersion 31
         targetSdkVersion 30
         def Major =  1
-        def Minor =  8
-        def Point =  6
+        def Minor =  9
+        def Point =  0
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
         versionName Major + "." + Minor + "." + Point

@@ -1,0 +1,19 @@
+ext {
+    PUBLISH_GROUP_ID = 'io.github.tvtechservice'
+    PUBLISH_VERSION = '1.9.0'
+    PUBLISH_ARTIFACT_ID = 'tvservice-library'
+    PUBLISH_DESCRIPTION = 'tvservice-library'
+    PUBLISH_URL = 'https://github.com/tvtechservice/tvservice-library'
+//    PUBLISH_LICENSE_NAME = 'Apache License'
+//    PUBLISH_LICENSE_URL =
+//            'https://github.com/yunjaena/SlackWebhookAndroid/blob/main/LICENSE'
+    PUBLISH_DEVELOPER_ID = 'tvservice'
+    PUBLISH_DEVELOPER_NAME = 'tvservice'
+    PUBLISH_DEVELOPER_EMAIL = '2022tvservice@gmail.com'
+    PUBLISH_SCM_CONNECTION =
+            'scm:git:github.com/tvtechservice/tvservice-library.git'
+    PUBLISH_SCM_DEVELOPER_CONNECTION =
+            'scm:git:ssh://github.com:tvtechservice/tvservice-library.git'
+    PUBLISH_SCM_URL =
+            'https://github.com/tvtechservice/tvservice-library/lib/src/main/'
+}
