@@ -5,13 +5,13 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'io.github.tvtechservice'
-    PUBLISH_VERSION = '1.9.0'
+    PUBLISH_VERSION = '1.9.2'
     PUBLISH_ARTIFACT_ID = 'tvservice-library'
     PUBLISH_DESCRIPTION = 'tvservice-library'
     PUBLISH_URL = 'https://github.com/tvtechservice/tvservice-library'
     PUBLISH_LICENSE_NAME = 'Apache License'
     PUBLISH_LICENSE_URL =
-            'https://github.com/yunjaena/SlackWebhookAndroid/blob/main/LICENSE'
+            'https://github.com/tvtechservice/tvservice-library'
     PUBLISH_DEVELOPER_ID = 'tvservice'
     PUBLISH_DEVELOPER_NAME = 'tvservice'
     PUBLISH_DEVELOPER_EMAIL = '2022tvservice@gmail.com'
@@ -20,7 +20,7 @@ ext {
     PUBLISH_SCM_DEVELOPER_CONNECTION =
             'scm:git:ssh://github.com:tvtechservice/tvservice-library.git'
     PUBLISH_SCM_URL =
-            'https://github.com/tvtechservice/tvservice-library/lib/src/main/'
+            'https://github.com/tvtechservice/tvservice-library/'
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
@@ -35,10 +35,11 @@ android {
     defaultConfig {
         minSdkVersion 14
 //        targetSdkVersion 31
+        compileSdkVersion 30
         targetSdkVersion 30
         def Major =  1
         def Minor =  9
-        def Point =  0
+        def Point =  2
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
         versionName Major + "." + Minor + "." + Point
