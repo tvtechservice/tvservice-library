@@ -8,7 +8,7 @@ apply plugin: 'signing'
 
 group = "io.github.tvtechservice"
 archivesBaseName = "tvservice-library"
-version = "1.8.3"
+version = "2.0.5"
 
 
 signing {
@@ -71,7 +71,7 @@ android {
         targetSdkVersion 30
         def Major =  2
         def Minor =  0
-        def Point =  3
+        def Point =  5
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
         versionName Major + "." + Minor + "." + Point
