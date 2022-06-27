@@ -3,27 +3,60 @@ plugins {
     id 'maven-publish'
 }
 
-ext {
-    PUBLISH_GROUP_ID = 'io.github.tvtechservice'
-    PUBLISH_VERSION = '2.0.1'
-    PUBLISH_ARTIFACT_ID = 'tvservice-library'
-    PUBLISH_DESCRIPTION = 'tvservice-library'
-    PUBLISH_URL = 'https://github.com/tvtechservice/tvservice-library'
-    PUBLISH_LICENSE_NAME = 'Apache License'
-    PUBLISH_LICENSE_URL =
-            'https://github.com/tvtechservice/tvservice-library'
-    PUBLISH_DEVELOPER_ID = 'tvservice'
-    PUBLISH_DEVELOPER_NAME = 'tvservice'
-    PUBLISH_DEVELOPER_EMAIL = '2022tvservice@gmail.com'
-    PUBLISH_SCM_CONNECTION =
-            'scm:git:github.com/tvtechservice/tvservice-library.git'
-    PUBLISH_SCM_DEVELOPER_CONNECTION =
-            'scm:git:ssh://github.com:tvtechservice/tvservice-library.git'
-    PUBLISH_SCM_URL =
-            'https://github.com/tvtechservice/tvservice-library/'
-}
+apply plugin: 'maven'
+apply plugin: 'signing'
 
-apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
+group = "io.github.tvtechservice"
+archivesBaseName = "tvservice-library"
+version = "1.8.3"
+
+
+signing {
+    sign configurations.archives
+}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: 'tvservice', password: '!Adteam12345')
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: 'tvservice', password: '!Adteam12345')
+            }
+
+            pom.project {
+                name 'tvservice-library'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'TVservice SDK'
+                url 'https://github.com/tvtechservice/tvservice-library'
+
+                scm {
+                    url 'https://github.com/tvtechservice/tvservice-library.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'tvservcie'
+                        name 'tvservcie'
+                        email '2022tvservcie@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 android {
@@ -35,11 +68,10 @@ android {
     defaultConfig {
         minSdkVersion 14
 //        targetSdkVersion 31
-
         targetSdkVersion 30
-        def Major =  2
-        def Minor =  0
-        def Point =  1
+        def Major =  1
+        def Minor =  8
+        def Point =  3
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
         versionName Major + "." + Minor + "." + Point
@@ -53,12 +85,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        //encoding "UTF-8"
+        encoding "UTF-8"
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
@@ -74,6 +106,15 @@ android {
     }
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+            }
+        }
+    }
+}
 
 
 dependencies {
