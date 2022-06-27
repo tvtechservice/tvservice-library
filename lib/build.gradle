@@ -69,8 +69,8 @@ android {
         minSdkVersion 14
 //        targetSdkVersion 31
         targetSdkVersion 30
-        def Major =  1
-        def Minor =  8
+        def Major =  2
+        def Minor =  0
         def Point =  3
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
