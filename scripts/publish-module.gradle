@@ -13,19 +13,6 @@ task androidSourcesJar(type: Jar) {
 //        from sourceSets.main.kotlin.srcDirs
     }
 }
-task renameAarForRelease(type: Copy, dependsOn: build) {
-    description = "Rename the aar for easy release publishing"
-
-    from "$buildDir/outputs/aar/" //${project.name}-release.aar
-    into "$buildDir/outputs/aar/" //${project.name}-${project.version}.aar"
-    include "${project.name}-release.aar"
-    rename { String fileName ->
-        fileName = "${project.name}-${project.version}.aar"
-    }
-    println "Renamed aar to ${project.name}-${project.version}.aar"
-
-}
-
 
 
 artifacts {
@@ -47,8 +34,7 @@ afterEvaluate {
 
                 // Two artifacts, the `aar` (or `jar`) and the sources
                 if (project.plugins.findPlugin("com.android.library")) {
-                    artifact("$buildDir/outputs/aar/${project.name}-release.aar")
-//                    from components.release
+                    from components.release
                 } else {
                     artifact("$buildDir/libs/${project.getName()}-${version}.jar")
                 }
@@ -87,14 +73,6 @@ afterEvaluate {
     }
 }
 
-
 signing {
-    sign (publishing.publications)
-
-//    sign configurations.archives
+    sign publishing.publications
 }
-
-build.mustRunAfter clean
-renameAarForRelease.mustRunAfter build
-
-androidSourcesJar.mustRunAfter clean
