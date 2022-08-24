@@ -43,6 +43,7 @@ public class PCI {
     public static final int NO_MATCHED_NOTIFIER_NAME = 0x00002002;
     public static final int PERMISSIONS_REQUEST = 0x0000001;
     public static boolean runable = true;
+    public boolean checPermission = false;
 
 
 
@@ -136,33 +137,36 @@ public class PCI {
         int ctime = currentTime("HHmm");
         String tAdid = AdId;
         String pCode = parterCode;
-        if(!PCIAdvertise.getInstance().isStarted()) {
-            try {
-                if (ctime < 400) {
+
+        if(onCheckPermission(context)) {
+            if (!PCIAdvertise.getInstance().isStarted()) {
+                try {
+                    if (ctime < 400) {
 //                    tAdid = PCIChiper.Encrypt(tAdid, pdate);
-                } else {
+                    } else {
 //                    tAdid = PCIChiper.Encrypt(tAdid, cdate);
+                    }
+
+                    if (checPermission) {
+                        PCIAdvertise.getInstance().start(context, "start", tAdid, pCode);
+                    } else {
+                        PCILog.d("This devices is not supported. ( Android 12 - Bluetooth Advertise Permission )");
+                    }
+                } catch (Exception e) {
+                    PCILog.d("Beacon Advertising error!!");
                 }
 
-                if(onCheckPermission(context)) {
-                    PCIAdvertise.getInstance().start(context, "start", tAdid, pCode);
-                }else{
-                    PCILog.d("This devices is not supported. ( Android 12 - Bluetooth Advertise Permission )");
-                }
-            } catch (Exception e) {
-                PCILog.d("Beacon Advertising error!!");
+                Timer timer = new Timer(true);
+                TimerTask timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        beaconStop();
+                    }
+                };
+                timer.schedule(timerTask, 3 * 60 * 1000);
+            } else {
+                PCILog.d("Already Beacon Advertising ... ");
             }
-
-            Timer timer = new Timer(true);
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    beaconStop();
-                }
-            };
-            timer.schedule(timerTask, 3 * 60 * 1000);
-        }else{
-            PCILog.d("Already Beacon Advertising ... ");
         }
     }
 
@@ -178,17 +182,21 @@ public class PCI {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
                 //ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.BLUETOOTH_ADVERTISE}, PERMISSIONS_REQUEST);
+                checPermission = false;
                 return false;
             } else {
+                checPermission = true;
                 return true;
             }
         }else{
             BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             if (mBluetoothAdapter == null) {
                 PCILog.d("Need to Bluetooth Permission! ");
+                checPermission = false;
                 return false;
             }else{
                 PCILog.d("Ready Bluetooth Permission! ");
+                checPermission = true;
                 return true;
             }
         }
