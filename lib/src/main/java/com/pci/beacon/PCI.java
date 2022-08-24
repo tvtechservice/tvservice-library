@@ -189,13 +189,12 @@ public class PCI {
                 return true;
             }
         }else{
-            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            if (mBluetoothAdapter == null) {
-                PCILog.d("Need to Bluetooth Permission! ");
+            if ((ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) ){
+                PCILog.d("Need to Bluetooth Permission!" );
                 checPermission = false;
                 return false;
-            }else{
-                PCILog.d("Ready Bluetooth Permission! ");
+            } else{
+                PCILog.d("Ready Bluetooth Permission!");
                 checPermission = true;
                 return true;
             }
