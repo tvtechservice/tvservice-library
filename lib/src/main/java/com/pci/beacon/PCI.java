@@ -3,6 +3,7 @@ package com.pci.beacon;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 //import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 //import com.pci.beacon.pciutil.PCIChiper;
 import com.pci.beacon.pciutil.PCILog;
@@ -181,7 +183,14 @@ public class PCI {
                 return true;
             }
         }else{
-            return true;
+            BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (mBluetoothAdapter == null) {
+                PCILog.d("Need to Bluetooth Permission! ");
+                return false;
+            }else{
+                PCILog.d("Ready Bluetooth Permission! ");
+                return true;
+            }
         }
     }
 
