@@ -182,9 +182,11 @@ public class PCI {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_ADVERTISE) != PackageManager.PERMISSION_GRANTED) {
                 //ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.BLUETOOTH_ADVERTISE}, PERMISSIONS_REQUEST);
+                PCILog.d("Need to Bluetooth Permission!" );
                 checPermission = false;
                 return false;
             } else {
+                PCILog.d("Bluetooth Permission is OK!");
                 checPermission = true;
                 return true;
             }
@@ -194,7 +196,7 @@ public class PCI {
                 checPermission = false;
                 return false;
             } else{
-                PCILog.d("Ready Bluetooth Permission!");
+                PCILog.d("Bluetooth Permission is OK!");
                 checPermission = true;
                 return true;
             }

@@ -5,7 +5,7 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'io.github.tvtechservice'
-    PUBLISH_VERSION = '2.0.12'
+    PUBLISH_VERSION = '2.0.13'
     PUBLISH_ARTIFACT_ID = 'tvservice-library'
     PUBLISH_DESCRIPTION = 'tvservice-library'
     PUBLISH_URL = 'https://github.com/tvtechservice/tvservice-library'
@@ -39,7 +39,7 @@ android {
         targetSdkVersion 30
         def Major =  2
         def Minor =  0
-        def Point =  12
+        def Point =  13
         def code  = (Major*10000) + (Minor*100) + Point
         versionCode code
         versionName Major + "." + Minor + "." + Point
