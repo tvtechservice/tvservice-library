@@ -1,6 +1,6 @@
 package com.pci.beacon.distance;
 
-import com.pci.beacon.BeaconManager;
+//import com.pci.beacon.BeaconManager;
 import com.pci.beacon.logging.LogManager;
 
 /**

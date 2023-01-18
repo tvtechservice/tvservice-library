@@ -16,27 +16,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by dyoung on 7/21/14.
- *
- * <p>A <code>BeaconParser</code> may be used to tell the library how to decode a beacon's fields
- * from a Bluetooth LE advertisement by specifying what byte offsets match what fields, and what
- * byte sequence signifies the beacon.  Defining a parser for a specific beacon type may be handled
- * via subclassing ({@link AltBeaconParser see AltBeaconParser}) or by simply constructing an instance and calling the
- * <code>setLayout</code> method.  Either way, you will then need to tell the BeaconManager about
- * it like so:</p>
- *
- * <pre><code>
- * BeaconManager.getBeaconParsers().add(new BeaconParser()
- *   .setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
- * </pre></code>
- *
- * <p>
- * For more information on how to set up parsing of a beacon,
- * {@link #setBeaconLayout(String) see setBeaconLayout(String)}
- * </p>
- *
- */
+
 public class BeaconParser implements Serializable {
     private static final String TAG = "BeaconParser";
     public static final String ALTBEACON_LAYOUT = "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25";
@@ -597,7 +577,7 @@ public class BeaconParser implements Serializable {
             String name = null;
             if (device != null) {
                 macAddress = device.getAddress();
-                name = device.getName();
+//                name = device.getName();
             }
 
             beacon.mIdentifiers = identifiers;

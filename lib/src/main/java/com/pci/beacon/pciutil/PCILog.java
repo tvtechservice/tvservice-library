@@ -1,7 +1,8 @@
 package com.pci.beacon.pciutil;
 
+import static android.util.Log.println;
+
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.PrintWriter;
@@ -10,14 +11,12 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.util.Log.println;
-
 //import androidx.annotation.NonNull;
 //import androidx.annotation.Nullable;
 
 public class PCILog {
 
-    @NonNull
+//    @NonNull
     private static final Locale LOCALE = Locale.getDefault();
 
 
@@ -148,7 +147,7 @@ public class PCILog {
     private static final int CALL_STACK_INDEX = 3;
     private static final Pattern ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$");
 
-    @NonNull
+
     private static String getTag() {
         StackTraceElement[] stackTrace = new Throwable().getStackTrace();
         StringBuilder tag = new StringBuilder("PCI_");
@@ -160,8 +159,8 @@ public class PCILog {
         else return tag.substring(0, MAX_TAG_LENGTH);
     }
 
-    @NonNull
-    private static String createStackElementTag(@NonNull StackTraceElement element) {
+//    @NonNull
+    private static String createStackElementTag( StackTraceElement element) {
         String tag = element.getClassName();
         Matcher matcher = ANONYMOUS_CLASS.matcher(tag);
 

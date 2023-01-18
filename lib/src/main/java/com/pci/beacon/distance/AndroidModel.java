@@ -1,7 +1,7 @@
 package com.pci.beacon.distance;
 
 import android.os.Build;
-import com.pci.beacon.BeaconManager;
+//import com.pci.beacon.BeaconManager;
 import com.pci.beacon.logging.LogManager;
 
 /**
