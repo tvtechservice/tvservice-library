@@ -16,7 +16,7 @@ import java.util.TimerTask;
 
 public class PCI {
 
-//    private @interface PCICode {}
+    //    private @interface PCICode {}
 //    public static final int SUCCESS = 0x00000000;
 //    public static final int INVALID_ARGUMENTS = 0x00002000;
 //    public static final int NO_MATCHED_NOTIFIER_NAME = 0x00002002;
@@ -55,13 +55,10 @@ public class PCI {
         if(onCheckPermission(context)) {
             if (!PCIAdvertise.getInstance().isStarted()) {
                 try {
-                    if (checPermission) {
-                        PCIAdvertise.getInstance().start(context, "start", tAdid, pCode);
-                    } else {
-                        PCILog.d("This devices is not supported. ( Bluetooth Advertise Permission Error !! )");
-                    }
+                    PCIAdvertise.getInstance().start(context, "start", tAdid, pCode);
+
                 }catch (Exception e){
-                    PCILog.d("Beacon Advertising Start error!!");
+                    PCILog.d("Beacon Advertising Start error!! ( Bluetooth Advertise Permission, ete ... )");
                 }
                 Timer timer = new Timer(true);
                 TimerTask timerTask = new TimerTask() {
@@ -90,11 +87,9 @@ public class PCI {
         if (Build.VERSION.SDK_INT >= 31) {
             if (packageManager.checkPermission(Manifest.permission.BLUETOOTH_ADVERTISE, packageName) != PackageManager.PERMISSION_GRANTED) {
                 PCILog.d("Need to Bluetooth Permission!" );
-                checPermission = false;
                 return false;
             } else {
                 PCILog.d("Bluetooth Permission is OK!");
-                checPermission = true;
                 return true;
             }
         }else{
