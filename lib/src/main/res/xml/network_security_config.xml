@@ -1,0 +1,35 @@
+
+
+
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+
+<!--    <domain-config>-->
+<!--    <domain includeSubdomains="true">ktipmedia.co.kr</domain>-->
+
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">pcimobile.ktipmedia.co.kr</domain>
+        <trust-anchors>
+            <certificates src="@raw/mobilepci"/>
+            <certificates src="@raw/mobilepci2"/>
+        </trust-anchors>
+    </domain-config>
+
+<!--</domain-config>-->
+</network-security-config>
+
+
+
+
+<!--<network-security-config>-->
+<!--    <base-config cleartextTrafficPermitted="true" />-->
+<!--    <domain-config>-->
+<!--        <domain-config cleartextTrafficPermitted="false">-->
+<!--            <domain includeSubdomains="true">pcimobile.ktipmedia.co.kr</domain>-->
+<!--            <trust-anchors>-->
+<!--                <certificates src="@raw/mobilepci"/>-->
+<!--                <certificates src="@raw/mobilepci2"/>-->
+<!--            </trust-anchors>-->
+<!--        </domain-config>-->
+<!--    </domain-config>-->
+<!--</network-security-config>-->

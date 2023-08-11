@@ -1,17 +1,43 @@
 package com.pci.beacon;
 
 
+import static android.content.Context.WIFI_SERVICE;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.util.Log;
 
+import com.google.gson.JsonArray;
+import com.pci.beacon.pciutil.DMR_Check_Info;
 import com.pci.beacon.pciutil.PCILog;
+import com.pci.beacon.pciutil.SearchStbWifiManager;
+import com.pci.service.model.PCIAD1002;
+import com.pci.service.network.PCIADApi;
+import com.pci.service.network.PCIApi;
+import com.pci.service.redux.action.ActionAgreeTerms;
+import com.pci.service.redux.action.ActionCheckinList;
+import com.pci.service.redux.action.ActionDMRCheckin;
+import com.pci.service.redux.core.Action;
+import com.pci.service.redux.core.PCIStore;
+import com.pci.service.redux.core.State;
+import com.pci.service.redux.state.PCIState;
+import com.pci.service.util.PCIStorage;
+import com.pci.service.util.PCIStorageKey;
+//import com.pci.service.redux.state.PCIState;
 
+import java.security.Policy;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 public class PCI {
@@ -24,7 +50,8 @@ public class PCI {
 //    public static boolean runable = true;
     public boolean checPermission = false;
 
-
+    /* Internal usage */
+    public static final String VERSION = BuildConfig.VERSION_NAME;
 
     @SuppressLint("StaticFieldLeak")
     private static volatile PCI singleton;
@@ -79,6 +106,35 @@ public class PCI {
             PCIAdvertise.getInstance().finish();
             PCILog.d(" Beacon Advertising Stop !!" );
         }catch (Exception e){ PCILog.d("Beacon Advertising Stop error!!"); }
+    }
+
+    public void DMRStart(String AdId, String parterCode) {   // DMR체크인 추가 by dalkommjk | v5.4.3 | 2023-08-11
+        PCILog.d("DMR Start !!");
+        int patner = Integer.parseInt(parterCode) + 100;
+        parterCode = Integer.toString(patner);
+
+//        sysrcv = new SystemRcv();
+//        /** 리시버 등록 */
+//        try {
+//            context.unregisterReceiver(sysrcv);
+//        } catch (Exception e) {
+//            com.pci.service.util.PCILog.d("PCI_Error - 008 ::: Broadcast UnRegister Error !!");
+//        } finally {
+//            IntentFilter wifi_filter = new IntentFilter(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION); //android.net.wifi.supplicant.CONNECTION_CHANGE
+//            context.registerReceiver(sysrcv, wifi_filter);
+//        }
+        /** Wifi 상태조회  */
+        try {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            if(wifiManager.isWifiEnabled() == true) {
+                SearchStbWifiManager.getInstance(context).findStbAddr(0, AdId, parterCode);
+            }else{
+                PCILog.d("WiFi-State Disable !!");
+            }
+        } catch (Exception e) {
+            PCILog.d("PCI_Error - 009 ::: WiFi State Get Error !! ");
+        }
+
     }
 
     public boolean onCheckPermission(Context context){
