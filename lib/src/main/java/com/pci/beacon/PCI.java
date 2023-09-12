@@ -76,13 +76,15 @@ public class PCI {
 
     public void beaconStart(String AdId, String parterCode) {
         PCILog.d("beaconStart()");
-        String tAdid = AdId;
-        String pCode = parterCode;
+        if(AdId.length() != 36 || parterCode.length() !=4) {
+            PCILog.d("[Beacon] ADID or PartnerCode Error !!");
+            return;
+        }
 
         if(onCheckPermission(context)) {
             if (!PCIAdvertise.getInstance().isStarted()) {
                 try {
-                    PCIAdvertise.getInstance().start(context, "start", tAdid, pCode);
+                    PCIAdvertise.getInstance().start(context, "start", AdId, parterCode);
 
                 }catch (Exception e){
                     PCILog.d("Beacon Advertising Start error!! ( Bluetooth Advertise Permission, ete ... )");
@@ -110,8 +112,13 @@ public class PCI {
 
     public void DMRStart(String AdId, String parterCode) {   // DMR체크인 추가 by dalkommjk | v5.4.3 | 2023-08-11
         PCILog.d("DMR Start !!");
-        int patner = Integer.parseInt(parterCode) + 100;
-        parterCode = Integer.toString(patner);
+        if(AdId.length() != 36 || parterCode.length() !=4) {
+            PCILog.d("[DMR] ADID or PartnerCode Error !!");
+            return;
+        }else {
+            int patner = Integer.parseInt(parterCode) + 100;
+            parterCode = Integer.toString(patner);
+        }
 
 //        sysrcv = new SystemRcv();
 //        /** 리시버 등록 */
