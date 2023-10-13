@@ -417,12 +417,13 @@ public class Beacon implements Parcelable, Serializable {
      * @return dataFields
      */
     public List<Long> getDataFields() {
-        if (mDataFields.getClass().isInstance(UNMODIFIABLE_LIST_OF_LONG)) {
-            return mDataFields;
-        }
-        else {
-            return Collections.unmodifiableList(mDataFields);
-        }
+//        if (mDataFields.getClass().isInstance(UNMODIFIABLE_LIST_OF_LONG)) {
+//            return mDataFields;
+//        }
+//        else {
+//            return Collections.unmodifiableList(mDataFields);
+//        }
+        return mDataFields;
     }
 
     /**
@@ -430,12 +431,13 @@ public class Beacon implements Parcelable, Serializable {
      * @return dataFields
      */
     public List<Long> getExtraDataFields() {
-        if (mExtraDataFields.getClass().isInstance(UNMODIFIABLE_LIST_OF_LONG)) {
-            return mExtraDataFields;
-        }
-        else {
-            return Collections.unmodifiableList(mExtraDataFields);
-        }
+//        if (mExtraDataFields.getClass().isInstance(UNMODIFIABLE_LIST_OF_LONG)) {
+//            return mExtraDataFields;
+//        }
+//        else {
+//            return Collections.unmodifiableList(mExtraDataFields);
+//        }
+        return mExtraDataFields;
     }
 
     /**
@@ -451,12 +453,13 @@ public class Beacon implements Parcelable, Serializable {
      * @return identifier
      */
     public List<Identifier> getIdentifiers() {
-        if (mIdentifiers.getClass().isInstance(UNMODIFIABLE_LIST_OF_IDENTIFIER)) {
-            return mIdentifiers;
-        }
-        else {
-            return Collections.unmodifiableList(mIdentifiers);
-        }
+//        if (mIdentifiers.getClass().isInstance(UNMODIFIABLE_LIST_OF_IDENTIFIER)) {
+//            return mIdentifiers;
+//        }
+//        else {
+//            return Collections.unmodifiableList(mIdentifiers);
+//        }
+        return mIdentifiers;
     }
 
 
