@@ -29,7 +29,7 @@ public class SearchStbWifiManager {
 //    private static final String         TAG                               = SearchStbWifiManager.class.getSimpleName();
 
 
-    public static String[][]            STB_PREDEFINED_IP                 = {{"172.30.1.128", "172.30.1.129", "172.30.1.130"}};
+    public static String[][]            STB_PREDEFINED_IP                 = {{"172.30.1.128", "172.30.1.129", "172.30.1.130", "172.30.1.131", "172.30.1.132"}};
     public static String[]              STB_HTTP_PORT                     = {"38520"};
     public static String                STB_DRM_PATH                      = "/description.xml";
 
@@ -47,7 +47,8 @@ public class SearchStbWifiManager {
 
     private String                      LOG_TAG                           = SearchStbWifiManager.class.getSimpleName();
     private ArrayList<DMR_Check_Info> result = new ArrayList<DMR_Check_Info>();
-    private DMR_Check_Info stbInfo;
+    //    private DMR_Check_Info stbInfo;
+    private stb_info stb_info_ ;
 
 
 
@@ -98,7 +99,7 @@ public class SearchStbWifiManager {
                     HttpURLConnection httpUrlConnection = null;
 
                     try {
-                        com.pci.service.util.PCILog.d(String.format("Request URL: %s", requestURL));
+                        PCILog.d(String.format("Request URL: %s", requestURL));
                         URL urlm = new URL(requestURL);
 
                         httpUrlConnection = (HttpURLConnection) urlm.openConnection();
@@ -114,13 +115,16 @@ public class SearchStbWifiManager {
                             ArrayList stbinfo_ ;
                             String said = null;
                             String taid = null;
-                            stbinfo_ = parseStbInfo(httpUrlConnection.getInputStream());
-                            said = stbinfo_.get(0).toString();
-                            taid = stbinfo_.get(1).toString();
+                            stb_info_ = parseStbInfo(httpUrlConnection.getInputStream());
+//                            stbinfo_ = parseStbInfo(httpUrlConnection.getInputStream());
+//                            said = stbinfo_.get(0).toString();
+//                            taid = stbinfo_.get(1).toString();
+                            said = stb_info_.serialNumber; said = said.trim();
+                            taid = stb_info_.modelDescription; taid = taid.trim();
 
 
                             PCILog.d("said = " + said +" | " + "taid = " + taid);
-                            if (said != null && said.length() > 0 && taid.length() < 20) {
+                            if (!taid.equals("") && said.length() > 0 && !taid.equals("") && taid.length() < 20) {
 
                                 if(!DMRList_Check.contains(new DMR_Check_Info( said, taid, check_time))) {  // 신규 체크인 발생 시
                                     DMRList_Check.add(new DMR_Check_Info( said, taid, check_time));
@@ -170,7 +174,21 @@ public class SearchStbWifiManager {
                                             break;
 
                                     }
-
+                                    //
+//                                    if(old_ == 1 ) { old = "12"; }
+//                                    else if(old_ == 2) { old = "13"; }
+//                                    else if(old_ == 3) { old = "19"; }
+//                                    else if(old_ == 4) { old = "25"; }
+//                                    else if(old_ == 5) { old = "30"; }
+//                                    else if(old_ == 6) { old = "35"; }
+//                                    else if(old_ == 7) { old = "40"; }
+//                                    else if(old_ == 8) { old = "45"; }
+//                                    else if(old_ == 9) { old = "50"; }
+//                                    else if(old_ == 10) { old = "55"; }
+//                                    else if(old_ == 11) { old = "60"; }
+//                                    else if(old_ == 12) { old = "65"; }
+//                                    else { old = "0"; }
+                                    //
                                     SimpleDateFormat toStr = new SimpleDateFormat("yyyyMMddHHmmss");
 
                                     Action actionDMRcheckin = new ActionDMRCheckin(checkininfo_.gaid(), old, checkininfo_.gender(), maid_,minor_,said, toStr.format(current_time.getTime()));
@@ -186,6 +204,8 @@ public class SearchStbWifiManager {
 
                                 }
 
+                            }else{
+                                PCILog.d("Can Not DMR Check-In !!! " + requestURL);
                             }
 
                         }
@@ -223,7 +243,7 @@ public class SearchStbWifiManager {
 
 
 
-    private ArrayList parseStbInfo(InputStream is) throws XmlPullParserException, IOException
+    private stb_info parseStbInfo(InputStream is) throws XmlPullParserException, IOException
     {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         XmlPullParser xpp = factory.newPullParser();
@@ -250,30 +270,43 @@ public class SearchStbWifiManager {
                         if (TextUtils.isEmpty(said))
                         {
                             said = xpp.getText();
+                            said = said.trim();
                             stbinfo.add(said);
                         }
-                        PCILog.d("xpp.getText() =" + xpp.getText());
+                        PCILog.d("SAID - xpp.getText() =" + xpp.getText());
                     }
-                    if(tagName.equals("modelDescription")) {
+                    else if(tagName.equals("modelDescription")) {
                         while(eventType != XmlPullParser.TEXT)
                             eventType = xpp.next();
 
                         if (TextUtils.isEmpty(taid))
                         {
                             taid = xpp.getText();
+                            taid = taid.trim();
                             stbinfo.add(taid);
                         }
-                        PCILog.d("xpp.getText() =" + xpp.getText());
+                        PCILog.d("TAID - xpp.getText() =" + xpp.getText());
+
                     }
+                    stb_info_ = new stb_info(said,taid);
                 }
             }
             eventType = xpp.next();
         }
-
-        if(said != null && said.length() > 0 && taid.length() < 20)
-            return stbinfo;
+        if (!taid.equals("") && said.length() > 0 && !taid.equals("") && taid.length() < 20)
+            return stb_info_;
 
         return null;
+    }
+
+    class stb_info{
+        public String serialNumber;
+        public String modelDescription;
+
+        public stb_info(String serialNumber_, String modelDescription) {
+            this.serialNumber = serialNumber_;
+            this.modelDescription = modelDescription;
+        }
     }
 
 
