@@ -132,12 +132,12 @@ public class PCI {
 //        }
         /** Wifi 상태조회  */
         try {
-            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            if(wifiManager.isWifiEnabled() == true) {
+//            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+//            if(wifiManager.isWifiEnabled() == true) {
                 SearchStbWifiManager.getInstance(context).findStbAddr(0, AdId, parterCode);
-            }else{
-                PCILog.d("WiFi-State Disable !!");
-            }
+//            }else{
+//                PCILog.d("WiFi-State Disable !!");
+//            }
         } catch (Exception e) {
             PCILog.d("PCI_Error - 009 ::: WiFi State Get Error !! ");
         }
